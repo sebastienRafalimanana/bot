@@ -1,13 +1,27 @@
-from flask import Flask
-from education.webhook import education
-from demo.webhook import wealther
 
-app = Flask(__name__)
+def create_app():
+    """
+    creation application flask
+    :return instance application
+    """
+    from flask import Flask
+    app = Flask(__name__)
 
-#Enregistrement de l'application dans l'application principale
+    _configure_blueprints(app)
 
-app.register_blueprint(education, url_prefix='/webhook')
-app.register_blueprint(wealther, url_prefix='/webhook')
+    return app
+def _configure_blueprints(app):
+    """
+    configuration bot application
+    :param app: instance application Flask
+    """
+    from bot import demo
+    from bot import meteo
 
-if __name__ == "__main__":
-    app.run()
+    blueprints = [
+        demo,
+        meteo
+    ]
+    for route in blueprints:
+        app.register_blueprint(route)
+

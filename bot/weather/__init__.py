@@ -1,0 +1,1 @@
+from .webhook import wealther as meteo

@@ -26,10 +26,11 @@ def receive_message():
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
                 print(recipient_id)
+                #pour le message text
                 if message['message'].get('text'):
                     response_sent_text = get_message()
                     send_message(recipient_id, response_sent_text)
-                #if user sends us a GIF, photo,video, or any other non-text item
+                #pour les autre messages
                 if message['message'].get('attachments'):
                     response_sent_nontext = get_message()
                     send_message(recipient_id, response_sent_nontext)
@@ -37,8 +38,6 @@ def receive_message():
 
 
 def verify_fb_token(token_sent):
-    #take token sent by facebook and verify it matches the verify token you sent
-    #if they match, allow the request, else return an error 
     if token_sent == VERIFY_TOKEN:
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
@@ -47,12 +46,9 @@ def verify_fb_token(token_sent):
 #chooses a random message to send to the user
 def get_message():
     sample_responses = ["mankasitraka :)"]
-    # return selected item to the user
     return random.choice(sample_responses)
 
-#uses PyMessenger to send response to user
 def send_message(recipient_id, response):
-    #sends user the text message provided via input response parameter
     bot.send_text_message(recipient_id, response)
     return "success"
 def call_api():
