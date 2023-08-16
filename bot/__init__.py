@@ -1,3 +1,6 @@
-from .education import education
-from .weather import meteo
-from .demo import demo
+"""
+    cette fichier contient le point d'importation de chaque bot
+"""
+
+
+from .pharmacie import pharmacy_guard
