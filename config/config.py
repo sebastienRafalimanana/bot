@@ -14,7 +14,7 @@ class Config(object):
 
     ACCESS_TOKEN = 'EAAEz0EkBmL4BOw5DpEeIgZChb3KE6PYugIBLNotQv10Fg8qSKsaaKjuOqTgj2ERFl1xZA9KJcbgfZABQ8U7jj13vKHP9zjWBAp9MZA7AxfwoqqKOUI5IvH94bpD5NE3gJmlKAfj3oUZAlHxxPDlvPqkiVEaSTQ92HdSKHOsCWw2uUOvVBMYfTCTTn9ZACBkwkx'
     VERIFY_TOKEN = '2kl73mjy1e'
-    URL_API = "https://script.google.com/macros/s/AKfycbyuEvh8UbUyVwdnIfb0afyov9EydGkdoywdLWefKJ4NehuT41OKQhoA0KF3-uEjsNPv/exec?region="
+    URL_API = "https://script.google.com/macros/s/AKfycbyZSQKPKKmkJ7lbspDbro263T0RkaBQOffe4_TEG0IrZP77mN-q5oFTNtnxgFZ5VISX/exec?region="
 
     #: Contexte path configuration
     CONTEXTE_PATH = environ.get('CONTEXTE_PATH', '/webhook')

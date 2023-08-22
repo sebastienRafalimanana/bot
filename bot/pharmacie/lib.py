@@ -323,7 +323,7 @@ def filter_pharmacies_by_date(pharmacies, date, format_date):
     if not start_dates[index] <= date and index != 0:
         index = bisect.bisect_left(start_dates, start_dates[index - 1])
     for i in range(index, len(start_dates)):
-        if index < len(start_dates) and start_dates[i] <= date <= end_dates[i]:
+        if index < len(start_dates) and start_dates[i] <= date < end_dates[i]:
             filtered_pharmacy.append(sorted_pharmacies[i])
         elif start_dates[i] > date:
             break
