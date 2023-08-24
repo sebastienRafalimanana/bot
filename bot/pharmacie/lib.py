@@ -1,18 +1,4 @@
 
-def send_gretting_message(sender_id, bot):
-    response = {
-        "greeting": [
-            {
-                "locale": "default",
-                "text": "Hello!"
-            }, {
-                "locale": "en_US",
-                "text": "Timeless apparel for the masses."
-            }
-        ]
-    }
-    return response
-
 def generate_pharmacies_attachement(sender_id, pharmacies, bot):
     response = {
         "recipient": {"id": sender_id},
@@ -21,17 +7,60 @@ def generate_pharmacies_attachement(sender_id, pharmacies, bot):
                 "type": "template",
                 "payload": {
                     "template_type": "generic",
-                    "elements": [{
-                            "title": f"Pharmacie de garge {pharmacy['REGION']}",
-                            "subtitle": f"Pharmacie {pharmacy['PHARMACIE']},\n{pharmacy['ADRESSE']} ,\nTel:{pharmacy['CONTACT']}",
-                            "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
-                        } for pharmacy in pharmacies
+                    "elements": [
+                            {
+                                "title": f"Pharmacie {pharmacy['pharmacie']}",
+                                "subtitle": f"\n{pharmacy['adresse']} ,\nTel:{pharmacy['contact']}",
+                                "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
+                                "buttons": [
+                                    {
+                                        "type": "postback",
+                                        "title": f"Detail",
+                                        "payload": f"{pharmacy['pharmacie']};{pharmacy['adresse']};{pharmacy['contact']}"
+                                    }]
+                            } for pharmacy in pharmacies
                     ]
                 }
             }
         }
     }
     bot.send_raw(response)
+
+def generate_pharmacy_choice(sender_id, code, bot):
+    response = {
+        "recipient": {"id": sender_id},
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                        {
+                            "title": f"Pharmacie de garde\n 24h/24",
+                            "buttons": [
+                                {
+                                    "type": "postback",
+                                    "title": f"Consulter",
+                                    "payload": f'choice;permanant;{code};Pharmacie de garde 24h/24'
+                                }]
+                        },
+                        {
+                            "title": f"Pharmacie de garde\n hebdomadaire",
+                            "buttons": [
+                                {
+                                    "type": "postback",
+                                    "title": f"Consulter",
+                                    "payload": f'choice;hebdo;{code};Pharmacie de garde hebdomadaire'
+                                }]
+                        }
+                    ]
+
+                }
+            }
+        }
+    }
+    bot.send_raw(response)
+
 
 def generate_menu_attachement(sender_id, bot):
     all_region = getLocalization()
@@ -44,8 +73,7 @@ def generate_menu_attachement(sender_id, bot):
                     "template_type": "generic",
                     "elements": [
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -66,8 +94,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -88,8 +115,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -110,8 +136,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -132,8 +157,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -154,8 +178,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -176,8 +199,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": "Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -198,8 +220,7 @@ def generate_menu_attachement(sender_id, bot):
                             ]
                         },
                         {
-                            "title": "Pharmacie de garge à Madagascar",
-                            "subtitle": "Trouvez une pharmacie de garde dans la région qui vous convient le mieux 😊!",
+                            "title": f"Pharmacie de garde à Madagascar",
                             "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
                             "buttons": [
                                 {
@@ -217,44 +238,13 @@ def generate_menu_attachement(sender_id, bot):
     }
     bot.send_raw(response)
 
-def persiste_menu(sender_id, bot):
-    all_region = getLocalization()
-    print(all_region)
-    response = {
-        #"recipient": {"id": sender_id},
-        "persistent_menu": [
-            {
-                "locale": "default",
-                "composer_input_disabled": True,
-                "call_to_actions": [
-                    {
-                        "type": "postback",
-                        "title": "Talk to an agent",
-                        "payload": "CARE_HELP"
-                    },
-                    {
-                        "type": "postback",
-                        "title": "Outfit suggestions",
-                        "payload": "CURATION"
-                    },
-                    {
-                        "type": "web_url",
-                        "title": "Shop now",
-                        "url": "https://www.originalcoastclothing.com/",
-                        "webview_height_ratio": "full"
-                    }
-                ]
-            }
-        ]
-    }
-    bot.send_raw(response)
 
 def quick_response(sender_id, bot):
     response = {
       "recipient": {"id": sender_id},
       "messaging_type": "RESPONSE",
       "message":{
-        "text": "voir plus ...",
+        "text": "...",
         "quick_replies":[
          {
             "content_type":"text",
@@ -306,25 +296,36 @@ def getLocalization(button=False):
     return localization_key
 
 
-def filter_pharmacies_by_date(pharmacies, date, format_date):
+def filter_pharmacies_by_date(pharmacies, date, format_date, hebdo=True, permanent=True):
     import bisect
     import datetime
+    from config import Config
 
     date = datetime.datetime.strptime(date, format_date).date()
     filtered_pharmacy = []
+    permanent_pharmacy = []
     sorted_pharmacies = sorted(pharmacies,
-                               key=lambda x: datetime.datetime.strptime(x['start_date'].strip(), format_date).date())
+                               key=lambda x: datetime.datetime.strptime(x['start_date'].strip().replace(' ', ''), format_date).date())
     start_dates = [datetime.datetime.strptime(pharmacy['start_date'].strip(), format_date).date() for pharmacy in
                    sorted_pharmacies]
-    end_dates = [datetime.datetime.strptime(pharmacy['end_date'].strip(), format_date).date() for pharmacy in
+    end_dates = [datetime.datetime.strptime(pharmacy['end_date'].strip().replace(' ', ''), format_date).date() for pharmacy in
                  sorted_pharmacies]
-
-    index = bisect.bisect_left(start_dates, date)
-    if not start_dates[index] <= date and index != 0:
-        index = bisect.bisect_left(start_dates, start_dates[index - 1])
-    for i in range(index, len(start_dates)):
-        if index < len(start_dates) and start_dates[i] <= date < end_dates[i]:
-            filtered_pharmacy.append(sorted_pharmacies[i])
-        elif start_dates[i] > date:
-            break
-    return filtered_pharmacy
+    #pour la pharmacie de la semaine
+    if hebdo:
+        index = bisect.bisect_left(start_dates, date)
+        if not start_dates[index] <= date and index != 0:
+            index = bisect.bisect_left(start_dates, start_dates[index - 1])
+        for i in range(index, len(start_dates)):
+            if index < len(start_dates) and start_dates[i] <= date < end_dates[i]:
+                filtered_pharmacy.append(sorted_pharmacies[i])
+            elif start_dates[i] > date:
+                break
+    #pour le pharmacie 24h/24
+    if permanent:
+        index = bisect.bisect_left(start_dates, datetime.datetime.strptime(Config.PASS_DATE, format_date).date())
+        for i in range(index, len(start_dates)):
+            if index < len(start_dates) and start_dates[i] == datetime.datetime.strptime(Config.PASS_DATE, format_date).date():
+                permanent_pharmacy.append(sorted_pharmacies[i])
+            elif start_dates[i] != date:
+                break
+    return filtered_pharmacy, permanent_pharmacy
