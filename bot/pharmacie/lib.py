@@ -1,30 +1,61 @@
 
 def generate_pharmacies_attachement(sender_id, pharmacies, bot):
-    response = {
-        "recipient": {"id": sender_id},
-        "message": {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [
-                            {
-                                "title": f"Pharmacie {pharmacy['pharmacie']}",
-                                "subtitle": f"\n{pharmacy['adresse']} ,\nTel:{pharmacy['contact']}",
-                                "image_url": "https://www.1min30.com/wp-content/uploads/2018/05/Logo-Pharmacie-500x263.jpg",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": f"Detail",
-                                        "payload": f"{pharmacy['pharmacie']};{pharmacy['adresse']};{pharmacy['contact']}"
-                                    }]
-                            } for pharmacy in pharmacies
-                    ]
+    if len(pharmacies) > 7:
+        pharmacie_partition = regrouper_liste(pharmacies,10)
+        for partition in pharmacie_partition:
+            response = {
+                "recipient": {"id": sender_id},
+                "message": {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [
+                                {
+                                    "title": f"Pharmacie {pharmacy['pharmacie']}",
+                                    "subtitle": f"\n{pharmacy['adresse']} ,\nTel:{pharmacy['contact']}",
+                                    "image_url": "https://www.vol-direct.net/wp-content/uploads/2023/02/pharmacie-de-garde.jpg",
+                                    "buttons": [
+                                        {
+                                            "type": "postback",
+                                            "title": f"Detail",
+                                            "payload": f"{pharmacy['pharmacie']};{pharmacy['adresse']};{pharmacy['contact']}"
+                                        }]
+                                } for pharmacy in partition
+                            ]
+                        }
+                    }
+                }
+            }
+            bot.send_raw(response)
+        return
+    else:
+        response = {
+            "recipient": {"id": sender_id},
+            "message": {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [
+                                {
+                                    "title": f"Pharmacie {pharmacy['pharmacie']}",
+                                    "subtitle": f"\n{pharmacy['adresse']} ,\nTel:{pharmacy['contact']}",
+                                    "image_url": "https://www.vol-direct.net/wp-content/uploads/2023/02/pharmacie-de-garde.jpg",
+                                    "buttons": [
+                                        {
+                                            "type": "postback",
+                                            "title": f"Detail",
+                                            "payload": f"{pharmacy['pharmacie']};{pharmacy['adresse']};{pharmacy['contact']}"
+                                        }]
+                                } for pharmacy in pharmacies
+                        ]
+                    }
                 }
             }
         }
-    }
-    bot.send_raw(response)
+        bot.send_raw(response)
+        return
 
 def generate_pharmacy_choice(sender_id, code, bot):
     response = {
@@ -329,3 +360,7 @@ def filter_pharmacies_by_date(pharmacies, date, format_date, hebdo=True, permane
             elif start_dates[i] != date:
                 break
     return filtered_pharmacy, permanent_pharmacy
+
+def regrouper_liste(liste, taille_groupe):
+    groupes = [liste[i:i + taille_groupe] for i in range(0, len(liste), taille_groupe)]
+    return groupes
